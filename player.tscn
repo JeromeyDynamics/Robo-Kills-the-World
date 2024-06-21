@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwpx5vc7y3syb"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_5c5vk"]
+[ext_resource type="Texture2D" uid="uid://b8gs7wjs72s5s" path="res://icon.svg" id="2_pn4ta"]
+[ext_resource type="PackedScene" uid="uid://ncu0nhv5eew4" path="res://gun.tscn" id="3_ju6ar"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4k7aa"]
+size = Vector2(114, 117)
+
+[node name="player" type="CharacterBody2D"]
+z_index = 6
+disable_mode = 2
+script = ExtResource("1_5c5vk")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(577, 325)
+zoom = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(576, 326)
+texture = ExtResource("2_pn4ta")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(577, 327)
+shape = SubResource("RectangleShape2D_4k7aa")
+
+[node name="dash_cooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="dash_duration" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[node name="gun" parent="." instance=ExtResource("3_ju6ar")]
+position = Vector2(577, 328)
+scale = Vector2(0.4, 0.4)
+
+[connection signal="timeout" from="dash_cooldown" to="." method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="dash_duration" to="." method="_on_dash_duration_timeout"]
